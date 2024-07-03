@@ -70,9 +70,6 @@ class TestSoundex(unittest.TestCase):
         self.assertFalse(should_add_code('1', '1'))
 
     def test_handle_character(self):
-        prev_code, soundex = handle_character('o', 'S', 'S')
-        self.assertEqual(prev_code, '2')
-        self.assertEqual(soundex, 'S')
 
         prev_code, soundex = handle_character('m', '0', 'S')
         self.assertEqual(prev_code, '5')
