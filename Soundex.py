@@ -11,9 +11,7 @@ def get_soundex_code(c):
     return mapping.get(c, '0')  # Default to '0' for non-mapped characters
 
 def validate_name(name):
-    if not name:
-        return False
-    return True
+    return bool(name)
 
 def initialize_soundex(name):
     return name[0].upper()
@@ -26,9 +24,9 @@ def process_characters(name):
         code = get_soundex_code(char)
         if code != '0' and code != prev_code:
             soundex += code
+            if len(soundex) == 4:
+                break
             prev_code = code
-        if len(soundex) == 4:
-            break
 
     return soundex
 
@@ -40,6 +38,4 @@ def generate_soundex(name):
         return ""
 
     soundex = process_characters(name)
-    soundex = pad_soundex(soundex)
-
-    return soundex
+    return pad_soundex(soundex)
