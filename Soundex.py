@@ -16,17 +16,24 @@ def validate_name(name):
 def initialize_soundex(name):
     return name[0].upper()
 
+def should_add_code(code, prev_code):
+    return code != '0' and code != prev_code
+
+def handle_character(char, prev_code, soundex):
+    code = get_soundex_code(char)
+    if should_add_code(code, prev_code):
+        soundex += code
+        prev_code = code
+    return prev_code, soundex
+
 def process_characters(name):
     soundex = initialize_soundex(name)
     prev_code = get_soundex_code(soundex)
 
     for char in name[1:]:
-        code = get_soundex_code(char)
-        if code != '0' and code != prev_code:
-            soundex += code
-            if len(soundex) == 4:
-                break
-            prev_code = code
+        prev_code, soundex = handle_character(char, prev_code, soundex)
+        if len(soundex) == 4:
+            break
 
     return soundex
 
