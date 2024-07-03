@@ -4,6 +4,8 @@ from Soundex import (
     get_soundex_code, 
     validate_name, 
     initialize_soundex, 
+    should_add_code, 
+    handle_character, 
     process_characters, 
     pad_soundex
 )
@@ -61,6 +63,20 @@ class TestSoundex(unittest.TestCase):
     def test_initialize_soundex(self):
         self.assertEqual(initialize_soundex("John"), "J")
         self.assertEqual(initialize_soundex("smith"), "S")
+
+    def test_should_add_code(self):
+        self.assertTrue(should_add_code('1', '0'))
+        self.assertFalse(should_add_code('0', '0'))
+        self.assertFalse(should_add_code('1', '1'))
+
+    def test_handle_character(self):
+        prev_code, soundex = handle_character('o', 'S', 'S')
+        self.assertEqual(prev_code, '0')
+        self.assertEqual(soundex, 'S')
+
+        prev_code, soundex = handle_character('m', '0', 'S')
+        self.assertEqual(prev_code, '5')
+        self.assertEqual(soundex, 'S5')
 
     def test_process_characters(self):
         self.assertEqual(process_characters("Washington"), "W252")
